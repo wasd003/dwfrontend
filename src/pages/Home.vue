@@ -1,38 +1,26 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="(item, idx) in productList" :key="idx">{{item}}</li>
-    </ul>
-  </div>
+    <div class="root">
+        <NavHeader class="header"></NavHeader>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
-    import api from "../utils/api";
+    import NavHeader from "@/components/NavHeader";
+
     export default {
-        name: "Home",
-        methods: {
-            getProductList() {
-                return api({
-                    url: '/product',
-                    method: 'get',
-                    data: {
-                    },
-                    params: {
-                    },
-                    responseType: 'json'
-                });
-            }
-        },
-        mounted() {
-            this.getProductList().then(e => this.productList = e);
-        },
-        data() {
-            return {
-                productList: []
-            }
+        name: 'Home',
+        components: {
+            NavHeader
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .root {
+        width: 1120px;
+    }
+    .header {
+        margin-bottom: 30px;
+    }
 </style>

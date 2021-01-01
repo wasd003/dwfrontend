@@ -1,13 +1,14 @@
 <template>
-    <div>无需数据输入</div>
+    <div id="diagram">
+    </div>
 </template>
 
 <script>
     export default {
-        name: "None"
+        name: "Charts",
     }
 </script>
 
-<style scoped>
+<style lang="scss">
 
 </style>

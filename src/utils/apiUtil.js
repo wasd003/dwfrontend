@@ -29,7 +29,7 @@ service.interceptors.request.use(
 // response intercetor
 service.interceptors.response.use(
   response => {
-    return response.data
+    return response.data;
   },
   error => {
     console.log(error)

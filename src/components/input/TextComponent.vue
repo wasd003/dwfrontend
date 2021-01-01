@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-input v-model="inputParams" placeholder="请输入电影/导演/演员名称" @blur="loseFocus"></el-input>
+        <el-input v-model="inputName" placeholder="请输入" @blur="onBlur"></el-input>
     </div>
 </template>
 
@@ -9,15 +9,15 @@
         name: "TextComponent",
         data() {
             return {
-                inputParams: ''
+                inputName: ''
             }
         },
         methods: {
             /**
              * 输入框失去焦点时将用户输入的参数通过vuex传递给NavHeader
              */
-            loseFocus() {
-                this.$store.commit('setStr', this.inputParams);
+            onBlur() {
+                this.$store.commit('setName', this.inputName);
             }
         }
     }

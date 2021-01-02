@@ -4,13 +4,14 @@ import Home from "@/pages/Home";
 
 import NoneAA from "@/components/combination/NoneAA";
 import NoneAD from "@/components/combination/NoneAD";
-import SelectionMovie from "@/components/combination/SelectionMovie";
 import TextMovie from "@/components/combination/TextMovie";
 import NoneMovie from "@/components/combination/NoneMovie";
 import WeekdayMovie from "@/components/combination/WeekdayMovie";
 import SlidingBlockMovie from "@/components/combination/SlidingBlockMovie";
 import SlidingTextMovie from "@/components/combination/SlidingTextMovie";
 import NoneMovieCountPie from "@/components/combination/NoneMovieCountPie";
+import YearMovie from "@/components/combination/YearMovie";
+import MonthDayMovie from "@/components/combination/MonthDayMovie";
 Vue.use(Router);//加载Router插件
 
 
@@ -31,11 +32,6 @@ export default new Router({
                     path: '/noneAD',
                     name: 'noneAD',
                     component: NoneAD
-                },
-                {
-                    path: '/selectionMovie',
-                    name: 'selectionMovie',
-                    component: SelectionMovie
                 },
                 {
                     path: '/textMovie',
@@ -66,6 +62,16 @@ export default new Router({
                     path: '/noneMovieCountPie',
                     name: 'noneMovieCountPie',
                     component: NoneMovieCountPie
+                },
+                {
+                    path: '/yearMovie',
+                    name: 'yearMovie',
+                    component: YearMovie
+                },
+                {
+                    path: '/monthDayMovie',
+                    name: 'monthDayMovie',
+                    component: MonthDayMovie
                 }
             ]
         }

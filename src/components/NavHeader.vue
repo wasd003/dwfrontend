@@ -17,7 +17,8 @@
             </el-menu>
         </div>
         <div class="search_bar">
-            <el-input v-model="pageId" placeholder="请输入页码"
+            <span>页码：</span>
+            <el-input v-model="pageId" placeholder=""
             class="page"></el-input>
             <el-cascader
                     class="select_query"
@@ -123,11 +124,49 @@
                     }
                 });
             },
+
             /**
              * 性能比较按钮事件触发
              * */
             cmpQuery() {
                 this.$store.commit('setIsChart', true);
+                // 1. 确定已选择了页码且格式正确
+                let val = parseInt(this.pageId)
+                if (!val || val < 1) {
+                    this.$message({
+                        message: '请选择正确的页码',
+                        type: 'warning',
+                        duration: 1000
+                    });
+                    return;
+                }
+                // 2. 确定已经选择了查询问题
+                let httpAttrs = this.getHttpAttrs();
+                if (httpAttrs == null) {
+                    this.$message({
+                        message: '请选择一种查询',
+                        type: 'warning',
+                        duration: 1000
+                    });
+                    return;
+                }
+
+                // 3. 发起查询
+                let dbs = ['dim', 'neo4j', 'hive'];
+                // 先把上一次请求的状态清空
+                for (let i = 0; i < dbs.length; i ++ ) {
+                    this.$store.commit('set' + dbs[i] + 'Duration', 0);
+                }
+                for (let i = 0; i < dbs.length; i ++ ) {
+                    apiUtil({
+                        url: '/' + dbs[i] + httpAttrs.url,
+                        method: 'get',
+                        params: httpAttrs.params
+                    }).then(e => {
+                        this.$store.commit('set' + dbs[i] + 'Duration', e.data.duration);
+                    });
+                }
+
             },
             getHttpAttrs() {
                 let s = '';
@@ -178,7 +217,7 @@
                     'director_directorTot_': {
                         url: '/director/movie_count',
                         params: {
-                            director: this.name,
+                            name: this.name,
                             pageId: this.pageId
                         },
                         methods: [{func: 'setMovieList', arg: 'reslist'},
@@ -187,7 +226,7 @@
                     'actor_starringTot_': {
                         url: '/actor/movie_count',
                         params: {
-                            actor: this.name,
+                            name: this.name,
                             pageId: this.pageId
                         },
                         methods: [{func: 'setMovieList', arg: 'reslist'},
@@ -196,7 +235,7 @@
                     'actor_supportingTot_': {
                         url: '/actor/movie_count',
                         params: {
-                            actor: this.name,
+                            name: this.name,
                             pageId: this.pageId
                         },
                         methods: [{func: 'setMovieList', arg: 'reslist'},
@@ -306,7 +345,7 @@
                                     },
                                     {
                                         value: 'weekday',
-                                        label: '周二新增电影'
+                                        label: '周x新增电影'
                                     }
                                 ]
                         },
@@ -421,8 +460,10 @@
                  * 根据查询问题选择数据输入输出组件
                  */
                 queryToInput: {
-                    'selectionMovie': [
+                    'yearMovie': [
                         ['timeDim', 'year'],
+                    ],
+                    'monthDayMovie': [
                         ['timeDim', 'monthDay']
                     ],
                     'textMovie': [
@@ -481,6 +522,7 @@
             margin-top: 35px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         .select_query {
             width: 660px;

@@ -72,6 +72,16 @@ Mock.mock(RegExp('/apiurl/dim/time/year' + '.*'), 'get', option => {
     return mockMovieList;
 });
 
+Mock.mock(RegExp('/apiurl/neo4j/time/year' + '.*'), 'get', option => {
+    console.log('mock receive:' + option.url);
+    return mockMovieList;
+});
+
+Mock.mock(RegExp('/apiurl/hive/time/year' + '.*'), 'get', option => {
+    console.log('mock receive:' + option.url);
+    return mockMovieList;
+});
+
 // 2. xx月xx日有多少电影
 Mock.mock(RegExp('/apiurl/dim/time/month_day' + '.*'), 'get', option => {
     console.log('mock receive:' + option.url);

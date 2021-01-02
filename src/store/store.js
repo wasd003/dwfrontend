@@ -32,7 +32,10 @@ const state = {
     duration: 0,
     aaList: [],
     adList: [],
-    percentageList: []
+    percentageList: [],
+    dimDuration: 0,
+    neo4jDuration: 0,
+    hiveDuration: 0
 };
 
 /**
@@ -87,6 +90,15 @@ const mutations = {
                 name: percentageList[i].rating + '星'
             });
         }
+    },
+    setdimDuration(state, duration) {
+        state.dimDuration = duration;
+    },
+    setneo4jDuration(state, duration) {
+        state.neo4jDuration = duration;
+    },
+    sethiveDuration(state, duration) {
+        state.hiveDuration = duration;
     }
 
 };

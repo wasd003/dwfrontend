@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './styles/element-variables.scss'
 import store from './store/store'
 import * as echarts from 'echarts'
-require('./mock')
+// require('./mock')
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
@@ -21,6 +21,5 @@ new Vue({
     el: '#app',
     router,
     store,
-    echarts,
     render: h => h(App),
 }).$mount('#app');

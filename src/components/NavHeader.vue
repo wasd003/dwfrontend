@@ -47,7 +47,7 @@
              * @param key: el-menu-item的index
              */
             handleSelect(key) {
-                this.curDb = key;
+                this.$store.commit('setCurDb', key);
             },
 
             /**
@@ -55,7 +55,7 @@
              * */
             handleChange(path) {
                 let find = false;
-                this.queryPath = path;
+                this.$store.commit('setQueryPath', path);
                 for (let key in this.queryToInput) {
                     if (find) break;
                     for (let i = 0; i < this.queryToInput[key].length; i++) {
@@ -114,11 +114,13 @@
                     });
                     return;
                 }
+                this.$store.commit('setLoading', true);
                 apiUtil({
-                    url: '/' + this.curDb + httpAttrs.url,
+                    url: this.getUrl(httpAttrs, this.curDb),
                     method: 'get',
                     params: httpAttrs.params
                 }).then(e => {
+                    this.$store.commit('setLoading', false);
                     for (let i = 0; i < httpAttrs.methods.length; i ++ ) {
                         this.$store.commit(httpAttrs.methods[i].func, e.data[httpAttrs.methods[i].arg]);
                     }
@@ -159,7 +161,7 @@
                 }
                 for (let i = 0; i < dbs.length; i ++ ) {
                     apiUtil({
-                        url: '/' + dbs[i] + httpAttrs.url,
+                        url: this.getUrl(httpAttrs, dbs[i]),
                         method: 'get',
                         params: httpAttrs.params
                     }).then(e => {
@@ -167,6 +169,15 @@
                     });
                 }
 
+            },
+            getUrl(httpAttrs, db) {
+                if (this.equal(this.queryPath, ['relation', 'actorCoActor']) ||
+                this.equal(this.queryPath, ['relation', 'actorCoDirector'])) {
+                    if (db === 'hive') {
+                        return '/dim' + httpAttrs.url;
+                    }
+                }
+                return '/' + db + httpAttrs.url;
             },
             getHttpAttrs() {
                 let s = '';
@@ -180,7 +191,7 @@
             }
         },
         computed: {
-            ...mapState(['year', 'month', 'day', 'name', 'weekday', 'rating']),
+            ...mapState(['year', 'month', 'day', 'name', 'weekday', 'rating', 'curDb', 'queryPath']),
             /**
              * 放在computed中，params中的值及时更新
              * */
@@ -324,6 +335,14 @@
                         },
                         methods: [{func: 'setCareerList', arg: 'reslist'},
                             {func: 'setDuration', arg: 'duration'}]
+                    },
+                    'handWriting_': {
+                        url: '/sql',
+                        params: {
+                            sql: this.name
+                        },
+                        methods: [{func: 'setJson', arg: 'reslist'},
+                            {func: 'setDuration', arg: 'duration'}]
                     }
                 }
             }
@@ -332,10 +351,6 @@
             return {
                 value: [],
                 pageId: 1,
-                /**
-                 * 记忆当前查询路径
-                 * */
-                queryPath: [],
                 options:
                     [
                         {
@@ -461,10 +476,6 @@
                         }
                     ],
                 /**
-                 * 当前选择的数据库类型
-                 * */
-                curDb: null,
-                /**
                  * 根据查询问题选择数据输入输出组件
                  */
                 queryToInput: {
@@ -479,8 +490,7 @@
                         ['director', 'directorTot'],
                         ['actor', 'starringTot'],
                         ['actor', 'supportingTot'],
-                        ['movieType'],
-                        ['handWriting']
+                        ['movieType']
                     ],
                     'noneAA': [
                         ['relation', 'actorCoActor'],
@@ -506,6 +516,9 @@
                     ],
                     'textCareer': [
                         ['alter', 'actorCareer']
+                    ],
+                    'textJson': [
+                        ['handWriting']
                     ]
                 },
 

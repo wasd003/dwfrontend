@@ -39,6 +39,6 @@ service.interceptors.response.use(
     console.log('err' + error)
     return Promise.reject(error)
   }
-)
+);
 service.defaults.baseURL = '/apiurl';
 export default service

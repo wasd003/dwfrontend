@@ -13,6 +13,7 @@ import NoneMovieCountPie from "@/components/combination/NoneMovieCountPie";
 import YearMovie from "@/components/combination/YearMovie";
 import MonthDayMovie from "@/components/combination/MonthDayMovie";
 import TextCareer from "@/components/combination/TextCareer";
+import TextJson from "@/components/combination/TextJson";
 Vue.use(Router);//加载Router插件
 
 
@@ -78,6 +79,11 @@ export default new Router({
                     path: '/textCareer',
                     name: 'textCareer',
                     component: TextCareer
+                },
+                {
+                    path: '/textJson',
+                    name: 'textJson',
+                    component: TextJson
                 }
             ]
         }

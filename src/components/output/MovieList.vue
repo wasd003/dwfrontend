@@ -6,35 +6,41 @@
         </div>
 
         <el-table
+                v-loading="loading"
                 stripe
                 :data="movieList"
                 style="width: 100%">
             <el-table-column
-                    prop="movie_name"
+                    v-if="curDb"
+                    :prop="option[curDb][0]"
                     label="电影名称"
                     sortable
                     >
             </el-table-column>
             <el-table-column
-                    prop="movie_rating"
+                    v-if="curDb"
+                    :prop="option[curDb][1]"
                     label="电影评分"
                     sortable
                     >
             </el-table-column>
             <el-table-column
-                    prop="movie_neg_count"
+                    v-if="curDb == 'dim' || curDb == 'neo4j'"
+                    :prop="option[curDb][2]"
                     label="差评数量"
                     sortable
                     >
             </el-table-column>
             <el-table-column
-                    prop="movie_pos_count"
+                    v-if="curDb == 'dim' || curDb == 'neo4j'"
+                    :prop="option[curDb][3]"
                     label="好评数量"
                     sortable
                     >
             </el-table-column>
             <el-table-column
-                    prop="movie_is_positive"
+                    v-if="curDb"
+                    :prop="option[curDb][4]"
                     label="是否包含好评"
                     >
             </el-table-column>
@@ -47,7 +53,18 @@
     export default {
         name: "Movie",
         computed: {
-            ...mapState(['movieList', 'count', 'duration'])
+            ...mapState(['movieList', 'count', 'duration', 'loading', 'curDb'])
+        },
+        data() {
+            return {
+                option: {
+                    'neo4j': ['movieName', 'movieRating',
+                        'movieNegCount', 'moviePosCount', 'movieIsPositive'],
+                    'dim': ['movieName', 'movieRating',
+                        'movieNegCount', 'moviePosCount', 'movieIsPositive'],
+                    'hive': ['movieName', 'rating', null, null, 'hasPositive'],
+                }
+            }
         }
     }
 </script>

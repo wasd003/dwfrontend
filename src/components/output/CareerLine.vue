@@ -1,6 +1,10 @@
 <template>
     <div>
-        <el-steps direction="vertical" :active="careerList.length">
+        <div class="statistics">
+            <span>查询用时: {{duration}}</span>
+        </div>
+        <el-steps direction="vertical" :active="careerList.length"
+        v-loading="loading">
             <el-step :title="item.year" :description="item.movies"
                      v-for="(item, idx) in careerList" :key="idx">
             </el-step>
@@ -13,10 +17,11 @@
     export default {
         name: "CareerLine",
         computed: {
-            ...mapState(['careerList'])
+            ...mapState(['careerList', 'duration', 'loading'])
         }
     }
 </script>
 
 <style lang="scss">
+    @import "../../styles/stat";
 </style>

@@ -35,7 +35,8 @@ const state = {
     percentageList: [],
     dimDuration: 0,
     neo4jDuration: 0,
-    hiveDuration: 0
+    hiveDuration: 0,
+    careerList: []
 };
 
 /**
@@ -99,6 +100,25 @@ const mutations = {
     },
     sethiveDuration(state, duration) {
         state.hiveDuration = duration;
+    },
+    setCareerList(state, careerList) {
+        state.careerList = [];
+        for (let i = 0; i < careerList.length; i ++ ) {
+            if (careerList[i].movies.length !== 0) {
+                let serial = '';
+                for (let j = 0; j < careerList[i].movies.length; j ++ ) {
+                    serial += careerList[i].movies[j];
+                    if (j !== careerList[i].movies.length - 1) {
+                        serial += ' 与 ';
+                    }
+                }
+                state.careerList.push({
+                    year: careerList[i].year.toString(),
+                    movies: serial
+                });
+            }
+
+        }
     }
 
 };

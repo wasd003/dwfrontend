@@ -316,6 +316,14 @@
                         url: '/movie/percentage',
                         methods: [{func: 'setPercentageList', arg: 'reslist'},
                             {func: 'setDuration', arg: 'duration'}]
+                    },
+                    'alter_actorCareer_': {
+                        url: '/actor/career',
+                        params: {
+                            actor: this.name
+                        },
+                        methods: [{func: 'setCareerList', arg: 'reslist'},
+                            {func: 'setDuration', arg: 'duration'}]
                     }
                 }
             }
@@ -495,6 +503,9 @@
                     ],
                     'noneMovieCountPie': [
                         ['alter', 'percentage']
+                    ],
+                    'textCareer': [
+                        ['alter', 'actorCareer']
                     ]
                 },
 

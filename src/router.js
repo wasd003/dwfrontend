@@ -12,6 +12,7 @@ import SlidingTextMovie from "@/components/combination/SlidingTextMovie";
 import NoneMovieCountPie from "@/components/combination/NoneMovieCountPie";
 import YearMovie from "@/components/combination/YearMovie";
 import MonthDayMovie from "@/components/combination/MonthDayMovie";
+import TextCareer from "@/components/combination/TextCareer";
 Vue.use(Router);//加载Router插件
 
 
@@ -72,6 +73,11 @@ export default new Router({
                     path: '/monthDayMovie',
                     name: 'monthDayMovie',
                     component: MonthDayMovie
+                },
+                {
+                    path: '/textCareer',
+                    name: 'textCareer',
+                    component: TextCareer
                 }
             ]
         }
